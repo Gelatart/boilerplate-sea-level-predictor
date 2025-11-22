@@ -16,12 +16,18 @@ def draw_plot():
     # Create first line of best fit
     slope, intercept, r, p, stderr = linregress(x, y)
 
-    x_extend = np.linspace(min(x) - 10, 2050, 100)
+    x_extend = pd.Series(range(1880, 2051))
     y_pred = slope*x_extend + intercept
     plt.plot(x_extend, y_pred)
 
     # Create second line of best fit
-
+    df_2000 = df[df['Year'].between(2000, 2014)]
+    x_2000 = df_2000['Year']
+    y_2000 = df_2000['CSIRO Adjusted Sea Level']
+    slope_2000, intercept_2000, r, p, stderr = linregress(x_2000, y_2000)
+    x_2000_extend = pd.Series(range(2000, 2051))
+    y_2000_pred = slope_2000*x_2000_extend + intercept_2000
+    plt.plot(x_2000_extend, y_2000_pred)
 
     # Add labels and title
     plt.title("Rise in Sea Level")
